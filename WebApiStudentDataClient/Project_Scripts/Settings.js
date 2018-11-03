@@ -7,26 +7,24 @@ const WEB_API_URL_StudentData_Course = WEB_API_URL_StudentData + "Course";
 const UserName = "Lars-Lærer";
 const Password = "smal";
 
-const ObjectNotFound = -7;
-const CourseAlreadyPresent = -6;
-const SaveOperationFailed = -5;
-const UpdateOperationFailed = -4;
-const DeleteOperationFailed = -3;
-const UserNotFound = -2;
-const CourseNotFound = -1;
+const ObjectNotFound = -6;
+const ObjectAlreadyPresent = -5;
+const SaveOperationFailed = -4;
+const UpdateOperationFailed = -3;
+const DeleteOperationFailed = -2;
+const UserNotFound = -1;
 const OperationOkHigherValueThanHere = 0;
 const UpdateOperationOk = 1;
 const SaveOperationOk = 2;
 const DeleteOperationOk = 3;
 
 const ErrorArray = [
-    [ObjectNotFound, "Object Not Found"],
-    [CourseAlreadyPresent, "Kursus/Fag findes allerede"],
+    [ObjectNotFound, "Object Findes ikke"],
+    [ObjectAlreadyPresent, "Objekt findes allerede"],
     [SaveOperationFailed, "Noget gik galt på Serveren, da objekt skulle gemmes"],
     [UpdateOperationFailed, "Noget gik galt på Serveren, da objekt skulle opdateres"],
     [DeleteOperationFailed, "Noget gik galt på Serveren, da objekt skulle slettes"],
     [UserNotFound, "Bruger ikke fundet"],
-    [CourseNotFound, "Kursus/Fag ikke fundet"],
     [OperationOkHigherValueThanHere, ""],
     [UpdateOperationOk, "Opdatereing af objekt er gjort"],
     [SaveOperationOk, "objekt er gemt"],
