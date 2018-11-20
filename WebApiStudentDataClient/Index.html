@@ -48,10 +48,29 @@
             <button type="button" id="btnInsertUser">Indsæt ny Bruger</button>
         </div>
     </div>-->
+
     <div class="row">
-        Udskrift af TypeScript Course objekter herunder.
+        -------------------------------------------------------------
     </div>
+
+    <div class="row">
+        Udskrift af TypeScript Course objekter herunder => 
+    </div>
+
     <div class="row" id="TypeScriptDemo">
+
+    </div>
+
+    <div class="row">
+        -------------------------------------------------------------
+    </div>
+
+    <div class="row">
+        Udskrift af Retur Koder og Retur Kode Strenge herunder. Bemærk at en Retur Kode mindre end 0 er lig med
+        en fejlkode =>
+    </div>
+
+    <div class="row" id="ReturnCodesAndReturnString">
 
     </div>
 </body>
@@ -67,7 +86,7 @@
         var CurrentUserSelection = CourseOperation_ENUM.Save_Course_Data;
 
         var CourseList = [];
-        var ReturnCodeAndReturnStringFromWEBApi = [];
+        var ReturnCodeAndReturnStringFromWEBApiList = [];
 
         GetCourseData();
         GetReturnCodesAndReturnStrings();
@@ -159,6 +178,61 @@
             CourseList.push(new Course(CourseID, CourseName));
         }
 
+        function PrintTypeScriptReturnCodesAndReturnStringsObjectsInArray() {
+            // javaScript(TypeScript kode => Udskrift af alle ReturnCodeAndReturnStringFromWEBApi 
+            // objekter i vores ReturnCodeAndReturnStringFromWEBApiList
+            
+            document.getElementById("ReturnCodesAndReturnString").innerHTML = ReturnCodeAndReturnStringFromWEBApiList;
+        }
+
+        function DecodejSONReturnCodesAndReturnStrings(jSonDataDeserialized) {
+            $.each(jSonDataDeserialized, function (key, item) {
+                ReturnCodeAndReturnStringFromWEBApiList.push(new ReturnCodeAndReturnStringFromWEBApi(item.ReturnCode, item.ReturnString));
+            });
+        }
+
+        function GetReturnCodesAndReturnStrings() {
+            $.ajax({
+                url: WEB_API_URL_RETURN_CODES_AND_RETURN_STRINGS,
+                type: 'GET',
+                dataType: "json",
+                crossDomain: true,
+                headers: {
+                    accept: "application/json",
+                },
+                success: function (data) {
+                    //On ajax success do this
+                    try {
+                        jSonDataDeserialized = JSON.parse(data);
+                        DecodejSONReturnCodesAndReturnStrings(jSonDataDeserialized);
+                        PrintTypeScriptReturnCodesAndReturnStringsObjectsInArray();
+                    }
+                    catch (Exception) {
+                        try {
+                            jSonDataDeserialized = JSON.parse(JSON.stringify(data));
+                            DecodejSONReturnCodesAndReturnStrings(jSonDataDeserialized);
+                            PrintTypeScriptReturnCodesAndReturnStringsObjectsInArray();
+                        }
+                        catch (Exception) {
+                            try {
+                                DecodejSONReturnCodesAndReturnStrings(data);
+                                PrintTypeScriptReturnCodesAndReturnStringsObjectsInArray();
+                            }
+                            catch (Exception) {
+                                $(".ErrorMessages").text(Exception);
+                            }
+                        }
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    //On ajax error do this
+                    alert(xhr.status);
+                    alert(ajaxOptions);
+                    alert(thrownError);
+                }
+            });
+        }
+
         function GetCourseData() {
             $(".CourseData").empty();
 
@@ -225,7 +299,7 @@
                             PrintTypeScriptCourseObjectsInArray();
                         }
                         else {
-                            alert("Noget gik galt, da Kursus/Fag navn " + CourseName + " skulle gemmes !!! Fejlnummeret er : " + dataBack + " Og fejlbeskeden er : " + FindErrorNumberString(dataBack));
+                            alert("Noget gik galt, da Kursus/Fag navn " + CourseName + " skulle gemmes !!! Fejlnummeret er : " + dataBack + " Og fejlbeskeden er : " + FindErrorNumberString(ReturnCodeAndReturnStringFromWEBApiList, dataBack));
                         }
                     },
                     error: function (xhr, ajaxOptions, thrownError) {
@@ -249,7 +323,7 @@
                     },
                     success: function (dataBack) {
                         //On ajax success do this
-                        if (UpdateOperationOk == dataBack) {
+                        if (OperationOkHigherValueThanHere < dataBack) {
                             CurrentRowCells = CurrentRow.children();
                             CurrentRowCells.eq(1).text($("#txtCourseName").val());
                             $("#txtCourseName").val("");
@@ -258,7 +332,7 @@
                             EditTypeScriptCourseObjectsInArray(CourseID, CourseName);
                         }
                         else {
-                            alert("Noget gik galt, da Kursus/Fag navn " + CourseName + " skulle opdateres !!! Fejlnummeret er : " + dataBack + " Og fejlbeskeden er : " + FindErrorNumberString(dataBack));
+                            alert("Noget gik galt, da Kursus/Fag navn " + CourseName + " skulle opdateres !!! Fejlnummeret er : " + dataBack + " Og fejlbeskeden er : " + FindErrorNumberString(ReturnCodeAndReturnStringFromWEBApiList, dataBack));
                         }
                     },
                     error: function (xhr, ajaxOptions, thrownError) {
@@ -284,12 +358,12 @@
                     type: 'DELETE',
                     success: function (dataBack) {
                         //On ajax success do this
-                        if (DeleteOperationOk == dataBack) {
+                        if (OperationOkHigherValueThanHere < dataBack) {
                             CurrentRow.remove();
                             DeleteTypeScriptCourseObjectInArray(CourseID);
                         }
                         else {
-                            alert("Noget gik galt, da Kursus/Fag navn " + CourseName + " skulle slettes !!! Fejlnummeret er : " + dataBack + " Og fejlbeskeden er : " + FindErrorNumberString(dataBack));
+                            alert("Noget gik galt, da Kursus/Fag navn " + CourseName + " skulle slettes !!! Fejlnummeret er : " + dataBack + " Og fejlbeskeden er : " + FindErrorNumberString(ReturnCodeAndReturnStringFromWEBApiList, dataBack));
                         }
                         
                     },

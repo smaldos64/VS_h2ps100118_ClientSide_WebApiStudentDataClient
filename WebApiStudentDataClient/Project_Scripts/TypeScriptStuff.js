@@ -20,11 +20,13 @@ var Course = /** @class */ (function () {
     return Course;
 }());
 var ReturnCodeAndReturnStringFromWEBApi = /** @class */ (function () {
-    function ReturnCodeAndReturnStringFromWEBApi() {
+    function ReturnCodeAndReturnStringFromWEBApi(ReturnCode, ReturnCodeString) {
         var _this = this;
         this.toString = function () {
             return "(" + (_this.ReturnCode + " " + _this.ReturnCodeString) + ")";
         };
+        this.ReturnCode = ReturnCode;
+        this.ReturnCodeString = ReturnCodeString;
     }
     return ReturnCodeAndReturnStringFromWEBApi;
 }());

@@ -27,6 +27,11 @@ class ReturnCodeAndReturnStringFromWEBApi {
     public ReturnCode;
     public ReturnCodeString;
 
+    constructor(ReturnCode: number, ReturnCodeString: string) {
+        this.ReturnCode = ReturnCode;
+        this.ReturnCodeString = ReturnCodeString;
+    }
+
     public toString = (): string => {
         return `(${this.ReturnCode + " " + this.ReturnCodeString})`;
     }
