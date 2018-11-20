@@ -9,7 +9,7 @@
     <link href="Content/bootstrap.css" rel="stylesheet" />
     <link href="StyleSheet/StyleSheet.css" rel="stylesheet" />
     <script type="text/javascript" src="Project_Scripts/Settings.js"></script>
-    <script type="text/javascript" src="Project_Scripts/IndexHelper.js"></script>
+    <script type="text/javascript" src="Project_Scripts/TypeScriptStuff.js"></script>
 </head>
 
 <body>
@@ -41,12 +41,18 @@
     <div class="ErrorMessages">
 
     </div>
-    <div class="row">
+    <!--<div class="row">
         <div class="col-sm-12">
             <input type="text" id="txtUserName" />
             <input type="text" id="txtPassword" />
             <button type="button" id="btnInsertUser">Indsæt ny Bruger</button>
         </div>
+    </div>-->
+    <div class="row">
+        Udskrift af TypeScript Course objekter herunder.
+    </div>
+    <div class="row" id="TypeScriptDemo">
+
     </div>
 </body>
 
@@ -60,7 +66,50 @@
 
         var CurrentUserSelection = CourseOperation_ENUM.Save_Course_Data;
 
+        var CourseList = [];
+        var ReturnCodeAndReturnStringFromWEBApi = [];
+
         GetCourseData();
+        GetReturnCodesAndReturnStrings();
+
+        function PrintTypeScriptCourseObjectsInArray() {
+            // javaScript(TypeScript kode => Udskrift af alle Course objekter i vores CourseList
+            for (var Counter = 0; Counter < CourseList.length; Counter++) {
+                CourseList[Counter].list();
+            }
+            document.getElementById("TypeScriptDemo").innerHTML = CourseList;
+        }
+
+        function EditTypeScriptCourseObjectsInArray(CourseID, CourseName) {
+            var Counter = 0;
+
+            do {
+                if (CourseList[Counter].CourseID == parseInt(CourseID)) {
+                    CourseList[Counter].CourseName = CourseName;
+                }
+            } while ((CourseList[Counter].CourseID != CourseID) && (++Counter < CourseList.length));
+
+            PrintTypeScriptCourseObjectsInArray();
+        }
+
+        function DeleteTypeScriptCourseObjectInArray(CourseID) {
+            var Counter = 0;
+            var Found = false;
+
+            do {
+                if (CourseList[Counter].CourseID == parseInt(CourseID)) {
+                    Found = true;
+                }
+                else {
+                    Counter++;
+                }
+            } while ((false == Found) && (Counter < CourseList.length));
+
+            if (true == Found) {
+                CourseList.splice(Counter, 1);
+                PrintTypeScriptCourseObjectsInArray();
+            }
+        }
 
         function UpdatePagerForSide() {
             //try {
@@ -77,6 +126,8 @@
             //catch (Exception) {
             //    $(".ErrorMessages").text(Exception);
             //}
+
+            PrintTypeScriptCourseObjectsInArray();
         }
 
         function DecodejSONStudentData(jSonDataDeserialized) {
@@ -103,6 +154,9 @@
             WorkString += ">Slet kursus/fag Navn (" + CourseID + ") </button>";
             WorkString += "</tr>";
             $(".CourseData").append(WorkString);
+
+            // Og herunder er der vist lidt TypeScript kode.
+            CourseList.push(new Course(CourseID, CourseName));
         }
 
         function GetCourseData() {
@@ -167,10 +221,10 @@
                         if (OperationOkHigherValueThanHere < dataBack) {
                             AddDataRowToTable(dataBack, CourseName);
                             $("#txtCourseName").val("");
+                            // Og herunder er der vist lidt TypeScript kode.
+                            PrintTypeScriptCourseObjectsInArray();
                         }
                         else {
-                            //alert("Noget gik galt, da CourseName " + CourseName + " skulle gemmes !!!");
-                            //alert(dataBack);
                             alert("Noget gik galt, da Kursus/Fag navn " + CourseName + " skulle gemmes !!! Fejlnummeret er : " + dataBack + " Og fejlbeskeden er : " + FindErrorNumberString(dataBack));
                         }
                     },
@@ -201,6 +255,7 @@
                             $("#txtCourseName").val("");
                             CurrentUserSelection = CourseOperation_ENUM.Save_Course_Data;
                             HandleButtonValueAndText(CurrentUserSelection);
+                            EditTypeScriptCourseObjectsInArray(CourseID, CourseName);
                         }
                         else {
                             alert("Noget gik galt, da Kursus/Fag navn " + CourseName + " skulle opdateres !!! Fejlnummeret er : " + dataBack + " Og fejlbeskeden er : " + FindErrorNumberString(dataBack));
@@ -231,6 +286,7 @@
                         //On ajax success do this
                         if (DeleteOperationOk == dataBack) {
                             CurrentRow.remove();
+                            DeleteTypeScriptCourseObjectInArray(CourseID);
                         }
                         else {
                             alert("Noget gik galt, da Kursus/Fag navn " + CourseName + " skulle slettes !!! Fejlnummeret er : " + dataBack + " Og fejlbeskeden er : " + FindErrorNumberString(dataBack));
@@ -268,41 +324,41 @@
             }
         }
 
-        $("#btnInsertUser").click(function () {
-            var UserName = $("#txtUserName").val();
-            var Password = $("#txtPassword").val();
+        //$("#btnInsertUser").click(function () {
+        //    var UserName = $("#txtUserName").val();
+        //    var Password = $("#txtPassword").val();
 
-            var data = { UserName: "Lars-Lærer", Password: "smal" }
+        //    var data = { UserName: "Lars-Lærer", Password: "smal" }
 
-            $.ajax({
-                url: WEP_API_URL_USERINFO + "?UserName=" + UserName + "&Password=" + Password,
-                type: 'POST',
-                //data: JSON.stringify(data),
-                dataType: 'json',
-                headers: {
-                    accept: "application/json",
-                    "content-type": "application/json",
-                },
-                success: function (dataBack) {
-                    //On ajax success do this
-                    alert(dataBack);
-                    //if (OperationOkHigherValueThanHere < dataBack) {
-                    //    AddDataRowToTable(dataBack, CourseName);
-                    //    $("#txtCourseName").val("");
-                    //}
-                    //else {
-                    //    //alert("Noget gik galt, da CourseName " + CourseName + " skulle gemmes !!!");
-                    //    //alert(dataBack);
-                    //    alert("Noget gik galt, da Kursus/Fag navn " + CourseName + " skulle gemmes !!! Fejlnummeret er : " + dataBack + " Og fejlbeskeden er : " + FindErrorNumberString(dataBack));
-                    //}
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    //On ajax error do this
-                    alert(xhr.status);
-                    alert(ajaxOptions);
-                    alert(thrownError);
-                }
-            });
-        });
+        //    $.ajax({
+        //        url: WEP_API_URL_USERINFO + "?UserName=" + UserName + "&Password=" + Password,
+        //        type: 'POST',
+        //        //data: JSON.stringify(data),
+        //        dataType: 'json',
+        //        headers: {
+        //            accept: "application/json",
+        //            "content-type": "application/json",
+        //        },
+        //        success: function (dataBack) {
+        //            //On ajax success do this
+        //            alert(dataBack);
+        //            //if (OperationOkHigherValueThanHere < dataBack) {
+        //            //    AddDataRowToTable(dataBack, CourseName);
+        //            //    $("#txtCourseName").val("");
+        //            //}
+        //            //else {
+        //            //    //alert("Noget gik galt, da CourseName " + CourseName + " skulle gemmes !!!");
+        //            //    //alert(dataBack);
+        //            //    alert("Noget gik galt, da Kursus/Fag navn " + CourseName + " skulle gemmes !!! Fejlnummeret er : " + dataBack + " Og fejlbeskeden er : " + FindErrorNumberString(dataBack));
+        //            //}
+        //        },
+        //        error: function (xhr, ajaxOptions, thrownError) {
+        //            //On ajax error do this
+        //            alert(xhr.status);
+        //            alert(ajaxOptions);
+        //            alert(thrownError);
+        //        }
+        //    });
+        //});
     });
 </script>
