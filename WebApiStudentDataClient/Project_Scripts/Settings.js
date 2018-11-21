@@ -70,16 +70,16 @@ const Password = "smal";
 
 const OperationOkHigherValueThanHere = 0;
 
-function FindErrorNumberString(ErrorList, ErrorNumber) {
-    ErrorNumberCounter = 0;
+function FindReturnNumberString(ReturnList, ReturnNumber) {
+    ReturnNumberCounter = 0;
 
     do {
-        if (ErrorList[ErrorNumberCounter].ReturnCode == ErrorNumber) {
-            return (ErrorList[ErrorNumberCounter].ReturnCodeString);
+        if (ReturnList[ReturnNumberCounter].ReturnCode == ReturnNumber) {
+            return (ReturnList[ReturnNumberCounter].ReturnCodeString);
         }
         else {
-            ErrorNumberCounter++;
+            ReturnNumberCounter++;
         }
-    } while (ErrorNumberCounter < ErrorList.length);
+    } while (ReturnNumberCounter < ReturnList.length);
     return ("Fejl nummer ikke fundet !!!");
 }
