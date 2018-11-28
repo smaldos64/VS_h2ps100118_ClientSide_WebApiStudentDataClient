@@ -19,13 +19,13 @@ class Course {
     }
 
     public toString = (): string => {
-        return `(${this.CourseID + " " + this.CourseName})`;
+        return `(${this.CourseID + " / " + this.CourseName})`;
     }
 }
 
 class ReturnCodeAndReturnStringFromWEBApi {
-    public ReturnCode;
-    public ReturnCodeString;
+    public ReturnCode: number;
+    public ReturnCodeString: string;
 
     constructor(ReturnCode: number, ReturnCodeString: string) {
         this.ReturnCode = ReturnCode;

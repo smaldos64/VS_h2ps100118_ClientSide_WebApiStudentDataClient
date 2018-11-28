@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>WebApiStudentData - Client - EducationLine</title>
+    <script src="Scripts/jquery-3.3.1.min.js"></script>
+    <script src="Scripts/bootstrap.js"></script>
+    <link href="Content/bootstrap.css" rel="stylesheet" />
+    <link href="StyleSheet/StyleSheet.css" rel="stylesheet" />
+    <script type="text/javascript" src="Project_Scripts/Settings.js"></script>
+    <script type="text/javascript" src="Project_Scripts/TypeScriptStuff.js"></script>
+</head>
+
+<body>
+    <a href="Index.html">Gå tilbage til Hovedside</a>
+    <br />
+    <br />
+
+    <select id="EducationName"></select>
+
+    <div class="row EducationLines" id="EducationLinesOnChoosenEducation">
+        
+
+    </div>
+</body>
+
+</html>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var SelectedEducationID;
+
+        GetEducations();
+
+        function AddDataRowToDropDownList(EducationID, EducationName) {
+            var option = document.createElement("option");
+            option.value = EducationID;
+            option.text = EducationName;
+            $("#EducationName").append(option);
+        }
+
+        function DecodejSonEducationData(jSonDataDeserialized) {
+            $.each(jSonDataDeserialized, function (key, item) {
+                AddDataRowToDropDownList(item.EducationID, item.EducationName);
+            });
+            if ($("#EducationName").length > 0) {
+                $("#EducationName :nth-child(1)").prop('selected', true);
+            }
+            SelectedEducationID = $("#EducationName").find(":selected").val();
+        }
+
+        function GetEducations() {
+            $.ajax({
+                url: WEB_API_URL_StudentData_Eductaion,
+                type: 'GET',
+                dataType: "json",
+                headers: {
+                    accept: "application/json",
+                },
+                success: function (data) {
+                    //On ajax success do this
+                    jSonDataDeserialized = Deserialize_jSOnData(data);
+                    if (jSonDecodingError != jSonDataDeserialized) {
+                        DecodejSonEducationData(jSonDataDeserialized);
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    //On ajax error do this
+                    alert(xhr.status);
+                    alert(ajaxOptions);
+                    alert(thrownError);
+                }
+            });
+        }
+
+    });
+</script>

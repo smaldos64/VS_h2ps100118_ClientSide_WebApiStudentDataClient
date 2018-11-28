@@ -7,7 +7,7 @@ var Course = /** @class */ (function () {
     function Course(CourseID, CourseName) {
         var _this = this;
         this.toString = function () {
-            return "(" + (_this.CourseID + " " + _this.CourseName) + ")";
+            return "(" + (_this.CourseID + " / " + _this.CourseName) + ")";
         };
         this.CourseID = CourseID;
         this.CourseName = CourseName;

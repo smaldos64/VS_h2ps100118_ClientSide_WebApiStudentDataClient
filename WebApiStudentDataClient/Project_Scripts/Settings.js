@@ -7,9 +7,12 @@ const WEB_API_URL_StudentData_Eductaion = WEB_API_URL_StudentData + "Education";
 const WEP_API_URL_USERINFO = WEB_API_URL_StudentData + "UserInfo";
 const WEB_API_URL_RETURN_CODES_AND_RETURN_STRINGS = WEB_API_URL_StudentData + "ReturnCodesAndStrings";
 
+const WEB_API_URL_StudentData_EducationLine = WEB_API_URL_StudentData + "EducationLine";
+
 const UserName = "Lars-Lærer";
 const Password = "smal";
 
+const jSonDecodingError = -100;
 const OperationOkHigherValueThanHere = 0;
 
 function FindReturnNumberString(ReturnList, ReturnNumber) {
@@ -24,4 +27,26 @@ function FindReturnNumberString(ReturnList, ReturnNumber) {
         }
     } while (ReturnNumberCounter < ReturnList.length);
     return ("Fejl nummer ikke fundet !!!");
+}
+
+function Deserialize_jSOnData(data) {
+    try {
+        jSonDataDeserialized = JSON.parse(data);
+    }
+    catch (Exception) {
+        try {
+            jSonDataDeserialized = JSON.parse(JSON.stringify(data));
+        }
+        catch (Exception) {
+            try {
+                jSonDataDeserialized = data;
+            }
+            catch (Exception) {
+                alert(Exception);
+                jSonDataDeserialized = jSonDecodingError;
+            }
+        }
+    }
+    
+    return (jSonDataDeserialized);
 }
