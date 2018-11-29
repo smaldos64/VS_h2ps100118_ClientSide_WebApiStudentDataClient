@@ -199,26 +199,10 @@
                 },
                 success: function (data) {
                     //On ajax success do this
-                    try {
-                        jSonDataDeserialized = JSON.parse(data);
+                    jSonDataDeserialized = Deserialize_jSOnData(data);
+                    if (jSonDecodingError != jSonDataDeserialized) {
                         DecodejSONReturnCodesAndReturnStrings(jSonDataDeserialized);
                         PrintTypeScriptReturnCodesAndReturnStringsObjectsInArray();
-                    }
-                    catch (Exception) {
-                        try {
-                            jSonDataDeserialized = JSON.parse(JSON.stringify(data));
-                            DecodejSONReturnCodesAndReturnStrings(jSonDataDeserialized);
-                            PrintTypeScriptReturnCodesAndReturnStringsObjectsInArray();
-                        }
-                        catch (Exception) {
-                            try {
-                                DecodejSONReturnCodesAndReturnStrings(data);
-                                PrintTypeScriptReturnCodesAndReturnStringsObjectsInArray();
-                            }
-                            catch (Exception) {
-                                $(".ErrorMessages").text(Exception);
-                            }
-                        }
                     }
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
@@ -243,26 +227,10 @@
                 },
                 success: function (data) {
                     //On ajax success do this
-                    try {
-                        jSonDataDeserialized = JSON.parse(data);
+                    jSonDataDeserialized = Deserialize_jSOnData(data);
+                    if (jSonDecodingError != jSonDataDeserialized) {
                         DecodejSONStudentData(jSonDataDeserialized);
                         UpdatePagerForSide();
-                    }
-                    catch (Exception) {
-                        try {
-                            jSonDataDeserialized = JSON.parse(JSON.stringify(data));
-                            DecodejSONStudentData(jSonDataDeserialized);
-                            UpdatePagerForSide();
-                        }
-                        catch (Exception) {
-                            try {
-                                DecodejSONStudentData(data);
-                                UpdatePagerForSide();
-                            }
-                            catch (Exception) {
-                                $(".ErrorMessages").text(Exception);
-                            }
-                        }
                     }
                 },
                 error: function (xhr, ajaxOptions, thrownError) {

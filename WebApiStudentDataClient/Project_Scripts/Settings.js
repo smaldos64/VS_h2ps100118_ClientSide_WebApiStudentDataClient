@@ -1,6 +1,6 @@
-﻿//const WEB_API_URL_StudentData = "http://localhost:62090/api/";
+﻿const WEB_API_URL_StudentData = "http://localhost:62090/api/";
 
-const WEB_API_URL_StudentData = "http://webapistudentdata.buchwaldshave34.dk/api/";
+//const WEB_API_URL_StudentData = "http://webapistudentdata.buchwaldshave34.dk/api/";
 
 const WEB_API_URL_StudentData_Course = WEB_API_URL_StudentData + "Course";
 const WEB_API_URL_StudentData_Eductaion = WEB_API_URL_StudentData + "Education";
