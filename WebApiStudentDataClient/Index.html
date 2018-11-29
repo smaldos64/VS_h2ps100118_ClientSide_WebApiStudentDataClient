@@ -83,7 +83,7 @@
         var CurrentUserSelection = CourseOperation_ENUM.Save_Course_Data;
 
         var CourseList = [];
-        var ReturnCodeAndReturnStringFromWEBApiList = [];
+        //var ReturnCodeAndReturnStringFromWEBApiList = [];
 
         GetCourseData();
         GetReturnCodesAndReturnStrings();
@@ -189,29 +189,10 @@
         }
 
         function GetReturnCodesAndReturnStrings() {
-            $.ajax({
-                url: WEB_API_URL_RETURN_CODES_AND_RETURN_STRINGS,
-                type: 'GET',
-                dataType: "json",
-                //crossDomain: true,
-                headers: {
-                    accept: "application/json",
-                },
-                success: function (data) {
-                    //On ajax success do this
-                    jSonDataDeserialized = Deserialize_jSOnData(data);
-                    if (jSonDecodingError != jSonDataDeserialized) {
-                        DecodejSONReturnCodesAndReturnStrings(jSonDataDeserialized);
-                        PrintTypeScriptReturnCodesAndReturnStringsObjectsInArray();
-                    }
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    //On ajax error do this
-                    alert(xhr.status);
-                    alert(ajaxOptions);
-                    alert(thrownError);
-                }
-            });
+            returnCode = GetReturnNumbersAndReturnStringFromWebAPI();
+            if (jSonDecodingOk == returnCode) {
+                PrintTypeScriptReturnCodesAndReturnStringsObjectsInArray();
+            }
         }
 
         function GetCourseData() {
@@ -264,7 +245,7 @@
                             PrintTypeScriptCourseObjectsInArray();
                         }
                         else {
-                            alert("Noget gik galt, da Kursus/Fag navn " + CourseName + " skulle gemmes !!! Fejlnummeret er : " + dataBack + " Og fejlbeskeden er : " + FindReturnNumberString(ReturnCodeAndReturnStringFromWEBApiList, dataBack));
+                            alert("Noget gik galt, da Kursus/Fag navn " + CourseName + " skulle gemmes !!! Fejlnummeret er : " + dataBack + ". Og fejlbeskeden er : " + FindReturnNumberString(ReturnCodeAndReturnStringFromWEBApiList, dataBack));
                         }
                     },
                     error: function (xhr, ajaxOptions, thrownError) {
@@ -297,7 +278,7 @@
                             EditTypeScriptCourseObjectsInArray(CourseID, CourseName);
                         }
                         else {
-                            alert("Noget gik galt, da Kursus/Fag navn " + CourseName + " skulle opdateres !!! Fejlnummeret er : " + dataBack + " Og fejlbeskeden er : " + FindReturnNumberString(ReturnCodeAndReturnStringFromWEBApiList, dataBack));
+                            alert("Noget gik galt, da Kursus/Fag navn " + CourseName + " skulle opdateres !!! Fejlnummeret er : " + dataBack + ". Og fejlbeskeden er : " + FindReturnNumberString(ReturnCodeAndReturnStringFromWEBApiList, dataBack));
                         }
                     },
                     error: function (xhr, ajaxOptions, thrownError) {
@@ -328,7 +309,7 @@
                             DeleteTypeScriptCourseObjectInArray(CourseID);
                         }
                         else {
-                            alert("Noget gik galt, da Kursus/Fag navn " + CourseName + " skulle slettes !!! Fejlnummeret er : " + dataBack + " Og fejlbeskeden er : " + FindReturnNumberString(ReturnCodeAndReturnStringFromWEBApiList, dataBack));
+                            alert("Noget gik galt, da Kursus/Fag navn " + CourseName + " skulle slettes !!! Fejlnummeret er : " + dataBack + ". Og fejlbeskeden er : " + FindReturnNumberString(ReturnCodeAndReturnStringFromWEBApiList, dataBack));
                         }
                         
                     },

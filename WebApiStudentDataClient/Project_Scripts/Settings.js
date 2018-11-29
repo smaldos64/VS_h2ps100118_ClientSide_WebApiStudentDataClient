@@ -13,7 +13,10 @@ const UserName = "Lars-Lærer";
 const Password = "smal";
 
 const jSonDecodingError = -100;
+const jSonDecodingOk = 0;
 const OperationOkHigherValueThanHere = 0;
+
+var ReturnCodeAndReturnStringFromWEBApiList = [];
 
 function FindReturnNumberString(ReturnList, ReturnNumber) {
     ReturnNumberCounter = 0;
@@ -47,6 +50,46 @@ function Deserialize_jSOnData(data) {
             }
         }
     }
-    
     return (jSonDataDeserialized);
+}
+
+function GetReturnNumbersAndReturnStringFromWebAPI() {
+    var ReturnCode = jSonDecodingError;
+
+    $.ajaxSetup({ async: false });
+    // VI vil ikke returnere fra funktionen før vores Ajax kald er blevet processeret !!!
+
+    $.ajax({
+        url: WEB_API_URL_RETURN_CODES_AND_RETURN_STRINGS,
+        type: 'GET',
+        dataType: "json",
+        headers: {
+            accept: "application/json",
+        },
+        success: function (data) {
+            //On ajax success do this
+            jSonDataDeserialized = Deserialize_jSOnData(data);
+            if (jSonDecodingError != jSonDataDeserialized) {
+                DecodejSONReturnCodesAndReturnStrings(jSonDataDeserialized);
+                //PrintTypeScriptReturnCodesAndReturnStringsObjectsInArray();
+                ReturnCode = jSonDecodingOk;
+            }
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            //On ajax error do this
+            alert(xhr.status);
+            alert(ajaxOptions);
+            alert(thrownError);
+        }
+    });
+
+    $.ajaxSetup({ async: true });
+    return (ReturnCode);
+}
+
+function DecodejSONReturnCodesAndReturnStrings(jSonDataDeserialized) {
+    ReturnCodeAndReturnStringFromWEBApiList.splice(0, ReturnCodeAndReturnStringFromWEBApiList.length);
+    $.each(jSonDataDeserialized, function (key, item) {
+        ReturnCodeAndReturnStringFromWEBApiList.push(new ReturnCodeAndReturnStringFromWEBApi(item.ReturnCode, item.ReturnString));
+    });
 }

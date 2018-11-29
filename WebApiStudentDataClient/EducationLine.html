@@ -67,14 +67,8 @@
         var SelectedEducationID;
         var SelectedEducationName;
 
+        GetReturnNumbersAndReturnStringFromWebAPI();
         GetEducations();
-
-        //function AddDataRowToEducationLinePrint(EducationLineID, EducationLineName) {
-        //    var option = document.createElement("option");
-        //    option.value = EducationID;
-        //    option.text = EducationName;
-        //    $("#EducationName").append(option);
-        //}
 
         function AddDataRowToTable(EducationLineID, EducationLineName) {
             WorkString = "<tr class='EducationLineNames'>";
@@ -212,7 +206,7 @@
                         $("#txtEducationLineName").val("");
                     }
                     else {
-                        alert("Noget gik galt, da EducationLine navn " + $("#txtEducationLineName").val() + " skulle gemmes !!! Fejlnummeret er : " + dataBack + " Og fejlbeskeden er : " + FindReturnNumberString(ReturnCodeAndReturnStringFromWEBApiList, dataBack));
+                        alert("Noget gik galt, da EducationLine navn " + $("#txtEducationLineName").val() + " skulle gemmes !!! Fejlnummeret er : " + dataBack + ". Og fejlbeskeden er : " + FindReturnNumberString(ReturnCodeAndReturnStringFromWEBApiList, dataBack));
                     }
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
