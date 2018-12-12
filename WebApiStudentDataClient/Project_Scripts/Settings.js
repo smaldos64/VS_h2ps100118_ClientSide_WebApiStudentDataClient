@@ -69,12 +69,14 @@ function GetReturnNumbersAndReturnStringFromWebAPI() {
         },
         success: function (data) {
             //On ajax success do this
-            jSonDataDeserialized = Deserialize_jSOnData(data);
-            if (jSonDecodingError != jSonDataDeserialized) {
-                DecodejSONReturnCodesAndReturnStrings(jSonDataDeserialized);
-                //PrintTypeScriptReturnCodesAndReturnStringsObjectsInArray();
-                ReturnCode = jSonDecodingOk;
-            }
+            DecodejSONReturnCodesAndReturnStrings(data);
+            ReturnCode = jSonDecodingOk;
+            //jSonDataDeserialized = Deserialize_jSOnData(data);
+            //if (jSonDecodingError != jSonDataDeserialized) {
+            //    DecodejSONReturnCodesAndReturnStrings(jSonDataDeserialized);
+            //    //PrintTypeScriptReturnCodesAndReturnStringsObjectsInArray();
+            //    ReturnCode = jSonDecodingOk;
+            //}
         },
         error: function (xhr, ajaxOptions, thrownError) {
             //On ajax error do this
@@ -88,9 +90,9 @@ function GetReturnNumbersAndReturnStringFromWebAPI() {
     return (ReturnCode);
 }
 
-function DecodejSONReturnCodesAndReturnStrings(jSonDataDeserialized) {
+function DecodejSONReturnCodesAndReturnStrings(jSonData) {
     ReturnCodeAndReturnStringFromWEBApiList.splice(0, ReturnCodeAndReturnStringFromWEBApiList.length);
-    $.each(jSonDataDeserialized, function (key, item) {
+    $.each(jSonData, function (key, item) {
         ReturnCodeAndReturnStringFromWEBApiList.push(new ReturnCodeAndReturnStringFromWEBApi(item.ReturnCode, item.ReturnString));
     });
 }

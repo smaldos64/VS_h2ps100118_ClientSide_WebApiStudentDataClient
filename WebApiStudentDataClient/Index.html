@@ -146,8 +146,8 @@
             PrintTypeScriptCourseObjectsInArray();
         }
 
-        function DecodejSONStudentData(jSonDataDeserialized) {
-            $.each(jSonDataDeserialized, function (key, item) {
+        function DecodejSONStudentData(jSonData) {
+            $.each(jSonData, function (key, item) {
                 AddDataRowToTable(item.CourseID, item.CourseName);
             });
         }
@@ -208,11 +208,8 @@
                 },
                 success: function (data) {
                     //On ajax success do this
-                    jSonDataDeserialized = Deserialize_jSOnData(data);
-                    if (jSonDecodingError != jSonDataDeserialized) {
-                        DecodejSONStudentData(jSonDataDeserialized);
-                        UpdatePagerForSide();
-                    }
+                    DecodejSONStudentData(data);
+                    UpdatePagerForSide();
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
                     //On ajax error do this
@@ -343,6 +340,5 @@
                 $("#btnCourseNameHandle").text("Ret Kursus/Fag Navn");
             }
         }
-      
     });
 </script>

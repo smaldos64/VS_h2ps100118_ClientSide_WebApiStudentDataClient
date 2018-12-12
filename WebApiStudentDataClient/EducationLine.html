@@ -93,11 +93,11 @@
             $(".EducationLineData").append(WorkString);
         }
 
-        function DecodejSonEducationLineData(jSonDataDeserialized)
+        function DecodejSonEducationLineData(jSonData)
         {
             $(".EducationLineData").empty();
 
-            $.each(jSonDataDeserialized, function (key, item) {
+            $.each(jSonData, function (key, item) {
                 AddDataRowToTable(item.EducationLineID, item.EducationLineName);
             });
         }
@@ -120,10 +120,7 @@
                 },
                 success: function (data) {
                     //On ajax success do this
-                    jSonDataDeserialized = Deserialize_jSOnData(data);
-                    if (jSonDecodingError != jSonDataDeserialized) {
-                        DecodejSonEducationLineData(jSonDataDeserialized);
-                    }
+                    DecodejSonEducationLineData(data);
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
                     //On ajax error do this
